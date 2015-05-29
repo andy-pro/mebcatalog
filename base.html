@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-language" content="ru" />
+    <meta http-equiv="Content-Type" content="txt/html; charset=utf-8" />
+    <title>Каталог мебели</title>
+    <script type='text/javascript' src='/static/js/jquery-1.6.1.min.js' ></script>
+    <script type='text/javascript' src='/static/js/jquery.prettyPhoto.js' ></script>
+    <link rel="stylesheet" href="/static/css/prettyPhoto.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+    <link rel="shortcut icon" href="/static/mebcatalog.png" type="image/ico" />
+    <script>
+        $(document).ready(function() {
+            var arraycat = [%{arraycat}];
+            var arrayhrefmenu = [%{arrayhrefmenu}];
+            var arrayhrefimg = [%{arrayhrefimg}];
+            var arrayhint = [%{arrayhint}];
+            var arrayimg = [%{arrayimg}];
+            var arraytitle = [%{arraytitle}];
+            $.each(arrayhrefmenu, function(i, menuitem) {
+                $(".mainmenu").append("<li><a href='mebcatalog" + menuitem +
+                "'>" + arraycat[i] + "</a></li>");
+            });
+            $.each(arrayhrefimg, function(i, menuitem) {
+                var show_photo = %{show_photo}
+                var homedir = 'mebcatalog'
+                var prjpath = '%{prjpath}'
+                pretty = ''
+                if (show_photo) {   // if showing photo need full path for images
+                    pretty = "rel='prettyPhoto[prj_gal]'"
+                    homedir = '/mebprojects/'
+                }
+                $("#content").append("<figure><a href='" + homedir + prjpath + menuitem +
+                "'" + pretty + "><img class='blockshd' src='/mebprojects/" + prjpath + arrayimg[i] + "' title='" +
+                arrayhint[i] + "'></a><legend><a href='" + homedir + prjpath + menuitem +
+                "'" + ">" + arraytitle[i] + "</a></legend></figure>");
+            });
+            $("a[rel^='prettyPhoto']").prettyPhoto({
+                theme: 'light_rounded', /* pp_default / light_rounded / dark_rounded / light_square / dark_square / facebook */
+                <!-- default_width: 640, -->
+                <!-- default_height: 480, -->
+            });
+        });
+    </script>
+
+  </head>
+  <body>
+    <div id="leftblock">
+        <div id="menu" class='blockshd'>
+            <ul><li><a href="/">Главная</a></li><hr size="2">
+            <div class="mainmenu"></div></ul>
+        </div>
+        <div id="logo" class='blockshd'>
+            <hr size="2"><div class="textsm">&copy andy-pro 2015</div>
+        </div>
+    </div>
+    <div id="header" class='blockshd'>%{header}<hr size="2"></div>
+    <div id="content"></div>
+  </body>
+</html>
